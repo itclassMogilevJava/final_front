@@ -1,28 +1,33 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-app-bar app color="primary" dark>
+      <v-btn @click="goToMainPage" primary>На главную</v-btn>
+      <v-btn @click="goToLoginPage" style="margin-left:10px">Войти</v-btn>
+      <v-btn @click="goToRegisterPage" style="margin-left:10px">Зарегистрироваться</v-btn>
+      <v-btn @click="logout" style="margin-left:10px">Выйти</v-btn>
+    </v-app-bar>
+    <v-content>
+      <router-view></router-view>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LocalStorageService from "./service/LocalStorageService.js";
 
+const localStorageService = LocalStorageService.getService();
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  methods: {
+    goToLoginPage() {
+      this.$router.push('/login')},
+    goToRegisterPage() {
+      this.$router.push('/register')},
+    goToMainPage() {
+      this.$router.push('/')},
+    logout() {
+      localStorageService.clearToken();
+      this.$router.push("/register");
+    }
   }
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
